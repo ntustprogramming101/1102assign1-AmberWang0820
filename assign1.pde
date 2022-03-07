@@ -9,7 +9,9 @@ int sx, sy;//soldier's position
 int speedsX;
 int rx, ry;//robor's position
 int lx, ly;//laser's position
-int speedlX;//laser
+int lxs;//laser's x slow position
+int speedlXs;//laser's speed: slow
+float speedlXf;//laser's speed: fast
 
 
 void setup() {
@@ -30,7 +32,9 @@ void setup() {
 
   lx = rx+25;//laser
   ly = ry+37;
-  speedlX = 2;//laser's speed
+  lxs = lx;
+  speedlXs = 2;//laser's speed: slow
+  speedlXf = 8;//laser's speed: fast
 
 }
 
@@ -63,8 +67,24 @@ void draw() {
   
   strokeWeight(10);//laser
   stroke(255,0,0);
-
-  line(lx,ly,lx-30,ly);
-  lx -= speedlX;
-
+  
+  line(lx,ly,lxs,ly);
+  lx -= speedlXs;
+  lxs -= speedlXf;
+  if(lx-speedlXs - lxs-speedlXf > 4){
+    speedlXf = speedlXs;
+  }
+  
+  if(rx - lxs > 160){
+    lx = rx;
+    lxs = rx;
+    lx -= speedlXs;
+    lxs -= speedlXf;
+  }
+  
+  
+  /*if(lx-speedlXs < lx-185){
+    lx = rx+25;
+    lx -= speedsX;
+  }*/
   }
