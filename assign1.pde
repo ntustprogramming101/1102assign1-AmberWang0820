@@ -44,7 +44,7 @@ void draw() {
   fill(253, 184, 19);//sun
   strokeWeight(5);
   stroke(255, 255, 0);
-  circle(590,50,120);
+  ellipse(590,50,120,120);
   image(soilImg,0,160);//soil
   strokeWeight(15);//grass
   stroke(24, 204, 25);
