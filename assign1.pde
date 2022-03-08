@@ -5,17 +5,18 @@ PImage robotImg;
 PImage soilImg;
 PImage soldierImg;
 
-int sx, sy;//soldier's position
-int speedsX;
-int rx, ry;//robor's position
-int lx, ly;//laser's position
-int lxs;//laser's x slow position
-int speedlXs;//laser's speed: slow
-float speedlXf;//laser's speed: fast
+int soldierX, soldierY;//soldier's position
+int soldierSpeed;
+int robotX, robotY;//robot's position
+int laserX1, laserX2, laserY;//laser's position, laserX1=laserX2
+float laserLenght;
+int laserSpeed;
 
 
 void setup() {
 	size(640, 480, P2D);
+
+  //load the pictures
 	skyImg = loadImage("img/bg.jpg");
   groundhogImg = loadImage("img/groundhog.png");
   lifeImg = loadImage("img/life.png");
@@ -23,18 +24,21 @@ void setup() {
   soldierImg = loadImage("img/soldier.png");
   robotImg = loadImage("img/robot.png");
   
-  sx = -160;
-  sy = 80*floor(random(2,6));
-  speedsX = 3;//soldier
+  //soldier
+  soldierX = -160;
+  soldierY = 80*floor(random(2,6));
+  soldierSpeed = 3;//soldier
   
-  rx = 80*floor(random(2,8));
-  ry = 80*floor(random(2,6));
-
-  lx = rx+25;//laser
-  ly = ry+37;
-  lxs = lx;
-  speedlXs = 2;//laser's speed: slow
-  speedlXf = 8;//laser's speed: fast
+  //robot
+  robotX = 80*floor(random(2,8));
+  robotY = 80*floor(random(2,6));
+  
+  //laser
+  laserX1 = robotX+25;
+  laserX2 = robotX+25;
+  laserY = robotY+37;
+  laserLenght=2;
+  laserSpeed=2;
 
 }
 
@@ -44,7 +48,7 @@ void draw() {
   fill(253, 184, 19);//sun
   strokeWeight(5);
   stroke(255, 255, 0);
-  ellipse(590,50,120,120);
+  circle(590,50,120);
   image(soilImg,0,160);//soil
   strokeWeight(15);//grass
   stroke(24, 204, 25);
@@ -54,37 +58,32 @@ void draw() {
   image(lifeImg,150,10);
   
   //characters
-  image(groundhogImg,280,80);//groundhog
   
-  image(soldierImg,sx,sy);//soldier
-  sx += speedsX;//walkingSpeed
-  if(sx > 640){
-     sx = -80;
-     sx += speedsX;
+  //groundhog
+  image(groundhogImg,280,80);
+  
+  //soldier
+  image(soldierImg,soldierX,soldierY);
+  soldierX += soldierSpeed;//soldier Walking Speed
+  if(soldierX > 640){
+     soldierX = -80;
+     soldierX += soldierSpeed;
   };
   
-  image(robotImg,rx,ry);//robot
+  //Draw robot
+  image(robotImg,robotX,robotY);
   
-  strokeWeight(10);//laser
+  //Draw laser
+  strokeWeight(10);
   stroke(255,0,0);
-  
-  line(lx,ly,lxs,ly);
-  lx -= speedlXs;
-  lxs -= speedlXf;
-  if(lx-speedlXs - lxs-speedlXf > 4){
-    speedlXf = speedlXs;
+  line(laserX2,laserY,(laserX1-=laserSpeed) -laserLenght++,laserY);
+  if(laserLenght++ > 10){
+    laserX2-=laserSpeed;
+    laserLenght=10;
   }
-  
-  if(rx - lxs > 160){
-    lx = rx;
-    lxs = rx;
-    lx -= speedlXs;
-    lxs -= speedlXf;
+  if(robotX-150 >= laserX1){
+    laserLenght=0;//let laser from short to long
+    laserX1=robotX+25;
+    laserX2=robotX+25;
   }
-  
-  
-  /*if(lx-speedlXs < lx-185){
-    lx = rx+25;
-    lx -= speedsX;
-  }*/
-  }
+}
