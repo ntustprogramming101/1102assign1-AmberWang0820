@@ -17,7 +17,7 @@ void setup() {
 	size(640, 480, P2D);
 
   //load the pictures
-  skyImg = loadImage("img/bg.jpg");
+	skyImg = loadImage("img/bg.jpg");
   groundhogImg = loadImage("img/groundhog.png");
   lifeImg = loadImage("img/life.png");
   soilImg = loadImage("img/soil.png");
@@ -59,10 +59,10 @@ void draw() {
   
   //characters
   
-  //groundhog
+  //Drae groundhog
   image(groundhogImg,280,80);
   
-  //soldier
+  //Draw soldier
   image(soldierImg,soldierX,soldierY);
   soldierX += soldierSpeed;//soldier Walking Speed
   if(soldierX > 640){
@@ -77,11 +77,11 @@ void draw() {
   strokeWeight(10);
   stroke(255,0,0);
   line(laserX2,laserY,(laserX1-=laserSpeed) -laserLenght++,laserY);
-  if(laserLenght++ > 10){
+  if(laserLenght++ > 20){
     laserX2-=laserSpeed;
-    laserLenght=10;
+    laserLenght=20;
   }
-  if(robotX-150 >= laserX1){
+  if(robotX-140 >= laserX1){
     laserLenght=0;//let laser from short to long
     laserX1=robotX+25;
     laserX2=robotX+25;
